@@ -1,0 +1,7 @@
+MI JORNADA 1.0 - PRIMER PROTOTIPO
+
+1. Para probarlo en un ordenador, sirve la carpeta con un servidor web local (HTTPS o localhost para instalar/offline).
+2. Para instalar en iPhone, publica los archivos estáticos en un alojamiento HTTPS y abre la URL en Safari > Compartir > Añadir a pantalla de inicio. La publicación inicial requiere conexión; después el service worker permite abrirlo sin conexión.
+3. Los datos se almacenan únicamente en el navegador del dispositivo mediante localStorage. Usa Ajustes > Exportar copia JSON con frecuencia. No borres los datos de Safari sin una copia.
+4. No se han incluido importaciones Excel/PDF.
+5. LIMITACIONES CONOCIDAS: calendario oficial de festivos no precargado; las excepciones se introducen manualmente; vacaciones anuales todavía sin contador de 31 días; compensación especial de festivos no parametrizada; recordatorios del sistema pendientes; tareas simultáneas no descuentan horas pero el informe suma duraciones; los registros manuales se atribuyen al día de entrada; no hay reparto automático de jornadas entre fechas; bolsa mensual provisional. No usar todavía para liquidaciones laborales oficiales.
