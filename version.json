@@ -1,10 +1,10 @@
 {
-  "version": "1.4.0",
+  "version": "1.4.1",
   "released": "2026-10-19",
   "changes": [
-    "Sección Plantilla con selección de trabajador",
-    "Datos locales separados por trabajador",
-    "Exportación y restauración completas de toda la plantilla",
-    "Conservación automática del registro personal existente"
+    "Preparaciones LP26- con secuencia de cinco dígitos",
+    "Bultos y peso por carga; cronómetro o registro manual",
+    "Resumen mensual por trabajador de preparaciones, bultos, kilos y tiempo",
+    "Conserva v1.4.0 y sus datos locales"
   ]
 }
