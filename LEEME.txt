@@ -1,5 +1,9 @@
-Mi Jornada 1.3.1 — Actualización incremental.
-Antes de actualizar, exporta una copia JSON desde Ajustes.
-Sube los archivos de este ZIP a la raíz de tu repositorio GitHub Pages y reemplaza los existentes.
-Abre la app y pulsa Buscar actualizaciones.
-Conserva la clave local mi-jornada-v1.
+Mi Jornada 1.4.0 — Plantilla local
+
+1. IMPORTANTE: antes de actualizar, entra en Ajustes de tu app actual y exporta una copia JSON.
+2. Sube todos los archivos de este ZIP a la raíz del repositorio GitHub Pages, sustituyendo los anteriores.
+3. Abre Mi Jornada y usa Buscar actualizaciones o vuelve a abrir la app.
+4. En Plantilla, tu registro actual se conserva como «Mi registro». Añade empleados y selecciónalos antes de anotar sus fichajes y tareas.
+5. En Ajustes, la copia JSON nueva incluye TODOS los empleados; la restauración reemplaza la plantilla completa.
+
+Todo queda guardado localmente en tu iPhone. No existe sincronización. Los horarios semanales de las fichas son informativos en esta versión: el cálculo todavía usa 8 horas de lunes a viernes por empleado.
