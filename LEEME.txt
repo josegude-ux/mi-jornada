@@ -1,5 +1,6 @@
-Mi Jornada 1.4.2 — Selector rápido de trabajadores.
-Antes de actualizar, exporta una copia JSON desde Ajustes.
-Sustituye los seis archivos de la raíz de tu repositorio GitHub Pages.
-Selecciona cualquier trabajador desde el menú desplegable de la cabecera.
-Los datos siguen guardándose exclusivamente en el dispositivo.
+Mi Jornada 1.4.4 — Menú inferior simplificado.
+Inicio, Actividad global, Informes y Ajustes.
+Tareas y Plantilla en Ajustes. Calendario desplegable en Ajustes.
+Antes de actualizar, exporta copia JSON desde Ajustes.
+Publica los 6 archivos del ZIP en la raíz de GitHub Pages sustituyendo los anteriores.
+No borres datos de Safari ni desinstales la app. La información local se conserva con las mismas claves.

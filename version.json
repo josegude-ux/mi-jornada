@@ -1,9 +1,11 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.4",
   "released": "2026-10-19",
   "changes": [
-    "Selector desplegable de trabajadores en la cabecera, visible en todas las pestañas",
-    "Cambio directo entre empleados manteniendo sus registros independientes",
-    "Conserva preparaciones LP26-, bultos, kilos e historial de la versión 1.4.1"
+    "Navegación inferior simplificada: Inicio, Actividad global, Informes y Ajustes",
+    "Tareas y Plantilla ahora accesibles desde Ajustes",
+    "Calendario disponible dentro de Ajustes",
+    "Acceso directo a tareas desde Inicio",
+    "Mantiene preparaciones LP26 y los registros existentes"
   ]
 }
