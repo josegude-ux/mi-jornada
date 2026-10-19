@@ -1,6 +1,5 @@
-Mi Jornada 1.4.4 — Menú inferior simplificado.
-Inicio, Actividad global, Informes y Ajustes.
-Tareas y Plantilla en Ajustes. Calendario desplegable en Ajustes.
-Antes de actualizar, exporta copia JSON desde Ajustes.
-Publica los 6 archivos del ZIP en la raíz de GitHub Pages sustituyendo los anteriores.
-No borres datos de Safari ni desinstales la app. La información local se conserva con las mismas claves.
+Mi Jornada 1.4.5 — Corrección del acceso Abrir trabajador.
+Antes de actualizar, exporta una copia de seguridad JSON desde Ajustes.
+Sube los seis archivos a GitHub Pages sustituyendo los existentes.
+Se conserva el almacenamiento local y los registros anteriores.
+En Actividad global, Abrir trabajador selecciona el empleado y abre Tareas y cargas.

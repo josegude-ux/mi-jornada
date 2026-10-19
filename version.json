@@ -1,11 +1,9 @@
 {
-  "version": "1.4.4",
+  "version": "1.4.5",
   "released": "2026-10-19",
   "changes": [
-    "Navegación inferior simplificada: Inicio, Actividad global, Informes y Ajustes",
-    "Tareas y Plantilla ahora accesibles desde Ajustes",
-    "Calendario disponible dentro de Ajustes",
-    "Acceso directo a tareas desde Inicio",
-    "Mantiene preparaciones LP26 y los registros existentes"
+    "Corregido botón Abrir trabajador desde Actividad global",
+    "Selecciona al trabajador y abre la sección de tareas y preparaciones",
+    "Mantiene registros locales y las funciones de v1.4.4"
   ]
 }
