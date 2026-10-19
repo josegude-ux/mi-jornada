@@ -1,5 +1,5 @@
-Mi Jornada 1.4.1 — Preparación de cargas LP26-#####.
-Antes de actualizar, exporta copia JSON desde Ajustes.
-Reemplaza los seis archivos del repositorio GitHub Pages.
-Todos los datos siguen en el dispositivo.
-La secuencia LP26- se propone automáticamente usando el primer número libre entre las cargas de la plantilla.
+Mi Jornada 1.4.2 — Selector rápido de trabajadores.
+Antes de actualizar, exporta una copia JSON desde Ajustes.
+Sustituye los seis archivos de la raíz de tu repositorio GitHub Pages.
+Selecciona cualquier trabajador desde el menú desplegable de la cabecera.
+Los datos siguen guardándose exclusivamente en el dispositivo.

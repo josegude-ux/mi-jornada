@@ -1,10 +1,9 @@
 {
-  "version": "1.4.1",
+  "version": "1.4.2",
   "released": "2026-10-19",
   "changes": [
-    "Preparaciones LP26- con secuencia de cinco dígitos",
-    "Bultos y peso por carga; cronómetro o registro manual",
-    "Resumen mensual por trabajador de preparaciones, bultos, kilos y tiempo",
-    "Conserva v1.4.0 y sus datos locales"
+    "Selector desplegable de trabajadores en la cabecera, visible en todas las pestañas",
+    "Cambio directo entre empleados manteniendo sus registros independientes",
+    "Conserva preparaciones LP26-, bultos, kilos e historial de la versión 1.4.1"
   ]
 }
