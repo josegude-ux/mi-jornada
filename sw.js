@@ -1,8 +1,9 @@
-const CACHE='control-jornada-mobile-v0.9.0';
-const ASSETS=['./','./index.html','./styles.css','./app.js','./data.js','./icon.svg','./manifest.webmanifest'];
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));});
-self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('control-jornada-mobile-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
-self.addEventListener('fetch',event=>{const u=new URL(event.request.url);if(u.origin!==self.location.origin||event.request.method!=='GET')return;
-if(u.pathname.endsWith('/version.json')||u.pathname.endsWith('/sw.js')){event.respondWith(fetch(event.request,{cache:'no-store'}));return;}
-event.respondWith(caches.match(event.request,{ignoreSearch:true}).then(cached=>cached||fetch(event.request)));});
+const CACHE='mi-jornada-v1-4-5';
+const FILES=['./','./index.html','./manifest.json','./icon.svg'];
+self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('mi-jornada-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting()});
+self.addEventListener('fetch',event=>{const request=event.request,url=new URL(request.url);if(request.method!=='GET'||url.origin!==self.location.origin)return;
+if(request.mode==='navigate'||url.pathname.endsWith('/version.json')){event.respondWith(fetch(request,{cache:'no-store'}).then(response=>{if(response.ok&&request.mode==='navigate'){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put('./index.html',copy)).catch(()=>{})}return response}).catch(async()=>await caches.match('./index.html')||Response.error()));return}
+event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(request,copy)).catch(()=>{})}return response})))
+});

@@ -1,13 +1,5 @@
-CONTROL JORNADA 0.8 — MÓDULO DE IMPORTACIÓN Y REVISIÓN PDF
-
-Ejecuta INICIAR_CONTROL_JORNADA.cmd (Windows). No requiere Python.
-
-En Importar PDF puedes seleccionar varios documentos PDF de fichajes desde la carpeta local o OneDrive sincronizado, o pegar texto extraído del PDF.
-
-IMPORTANTE: esta versión incluye un extractor PDF básico y experimental, no OCR ni compatibilidad con cualquier PDF. Si el documento usa fuentes codificadas, escaneos o tablas complejas, puede no leerlo correctamente. Comprueba SIEMPRE cada fila contra el PDF original.
-
-El reconocimiento de trabajador y horarios es orientativo, no validado para el modelo de PDF de la empresa. No hace cálculos ni modifica el Excel original. La salida CSV es solo para revisión manual y NO para importación directa.
-
-Privacidad: el ZIP contiene datos de personal procedentes del Excel original. Guarda y utiliza solo en equipos autorizados; no publiques en sitios web públicos.
-
-No se guardan automáticamente los PDF ni las filas extraídas; al actualizar la página se pierde ese borrador.
+Mi Jornada 1.4.5 — Corrección del acceso Abrir trabajador.
+Antes de actualizar, exporta una copia de seguridad JSON desde Ajustes.
+Sube los seis archivos a GitHub Pages sustituyendo los existentes.
+Se conserva el almacenamiento local y los registros anteriores.
+En Actividad global, Abrir trabajador selecciona el empleado y abre Tareas y cargas.
