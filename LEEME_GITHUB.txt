@@ -1,0 +1,11 @@
+VERSION DEMO DE CONTROL JORNADA v0.9 - SIN DATOS REALES
+
+Sube el contenido de esta carpeta a GitHub Pages para probar la PWA y las actualizaciones.
+
+Esta version contiene 12 trabajadores ficticios, sin fichajes ni marcas de calendario reales. NO subas data.js del Excel real a un repositorio publico.
+
+En iPhone abre la direccion HTTPS de Pages en Safari y Compartir > Anadir a pantalla de inicio.
+
+Para probar cambios de version, publica un nuevo version.json y los archivos actualizados. Cambia tambien la version del cache en sw.js y CJ_VERSION en app.js.
+
+La funcionalidad de actualizacion no evita que terceros vean archivos publicos; para datos reales se necesita alojamiento privado autenticado o una importacion local que nunca suba los datos al repositorio.

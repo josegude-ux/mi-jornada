@@ -1,9 +1,4 @@
 {
-  "version": "1.4.5",
-  "released": "2026-10-19",
-  "changes": [
-    "Corregido botón Abrir trabajador desde Actividad global",
-    "Selecciona al trabajador y abre la sección de tareas y preparaciones",
-    "Mantiene registros locales y las funciones de v1.4.4"
-  ]
+  "version": "0.9.0",
+  "releaseDate": "2026-10-22"
 }

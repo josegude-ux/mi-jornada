@@ -1,4 +1,9 @@
 'use strict';
+const CJ_VERSION='0.9.0';
+const CJ_RELEASE='2026-10-22';
+let updateStatus='Sin comprobar';
+let updateAvailable=false;
+let updateRegistration=null;
 const SAVE_KEY='control-jornada-empresa-v01';
 // Modo consulta: solo datos de la última copia Excel incorporada al paquete.
 let data=JSON.parse(JSON.stringify(window.INITIAL_DATA));
@@ -9,7 +14,7 @@ if(!Array.isArray(data.records)||!Array.isArray(data.employees)||!data.marks)dat
 const TODAY=(()=>{let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
 const viewState={page:'calendario',year:2026,month:9,emp:data.employees.find(e=>e.status==='ACTIVO')?.id||'1',recordFilter:'all',query:'',employeeQuery:'',calendarMode:'equipo',reviewLimit:60};
 const NAME_MONTH=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const VIEWS=[['calendario','▦','Control mensual'],['ficha','♙','Ficha empleado'],['resumen','◫','Resumen anual'],['empleados','♧','Empleados'],['revision','☷','Fichajes'],['importar','⇪','Importar PDF'],['vacaciones','☀','Vacaciones'],['cobertura','◷','Cobertura'],['ajustes','⚙','Origen de datos']];
+const VIEWS=[['calendario','▦','Control mensual'],['ficha','♙','Ficha empleado'],['resumen','◫','Resumen anual'],['empleados','♧','Empleados'],['revision','☷','Fichajes'],['importar','⇪','Importar PDF'],['vacaciones','☀','Vacaciones'],['cobertura','◷','Cobertura'],['ajustes','⚙','Ajustes']];
 const STATES={V:['Vacaciones','blue'],E:['Enfermedad','yellow'],C:['Ausencia injust.','red'],AP:['Asuntos propios','violet'],FESTIVO:['Festivo','gray'],ALTA:['Alta','green'],VP:['Vacaciones programadas','blue'],'':['Sin incidencia','gray']};
 const h=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const en=x=>data.employees.find(e=>e.id===String(x));
@@ -32,7 +37,7 @@ function countAbsences(date){const ab={V:[],E:[],C:[],AP:[]};data.employees.filt
 const daysOfMonth=(y,m)=>Array.from({length:new Date(y,m+1,0).getDate()},(_,i)=>iso(y,m,i+1));
 function getIssues(){return data.records.filter(r=>r.warning||r.control==='REVISAR'||r.action==='REVISAR'||r.pdfStatus.includes('INCOMPLETO')||r.correctionState.includes('PENDIENTE')||r.edit?.pending);}
 function metricsCard(name,value,foot,ico){return `<div class="metric"><div class="m-top"><span>${h(name)}</span><span class="m-icon">${ico}</span></div><strong class="mono">${h(value)}</strong><small>${h(foot)}</small></div>`;}
-function topbar(){const titles={inicio:'Vista general',calendario:'Control mensual',ficha:'Ficha de empleado',resumen:'Resumen anual',empleados:'Plantilla de empleados',revision:'Consulta de fichajes',vacaciones:'Vacaciones del Excel',cobertura:'Cobertura visual',importar:'Importación de PDF',ajustes:'Origen de datos'};return `<div class="topline"><div><div class="eyebrow">CONTROL JORNADA / EMPRESA</div><h1>${titles[viewState.page]}</h1><p class="subhead">Control Jornada v0.8 · Consulta Excel y revisión de fichajes PDF · Sin cálculos</p></div><div class="topactions"><span class="chip"><span class="dot"></span>Modo presentación · Solo lectura</span><button class="btn secondary" data-action="backup">⇩ Exportar datos</button></div></div>`;}
+function topbar(){const titles={inicio:'Vista general',calendario:'Control mensual',ficha:'Ficha de empleado',resumen:'Resumen anual',empleados:'Plantilla de empleados',revision:'Consulta de fichajes',vacaciones:'Vacaciones del Excel',cobertura:'Cobertura visual',importar:'Importación de PDF',ajustes:'Origen de datos'};return `<div class="topline"><div><div class="eyebrow">CONTROL JORNADA / EMPRESA</div><h1>${titles[viewState.page]}</h1><p class="subhead">Control Jornada v0.9 · Consulta Excel y revisión de fichajes PDF · Sin cálculos</p></div><div class="topactions"><span class="chip"><span class="dot"></span>Modo presentación · Solo lectura</span><button class="btn secondary" data-action="backup">⇩ Exportar datos</button></div></div>`;}
 function monthPicker(){return `<div class="monthnav"><button data-action="prev-month" aria-label="Mes anterior">‹</button><b>${fmtMonth()}</b><button data-action="next-month" aria-label="Mes siguiente">›</button></div>`;}
 function filterEmployee(){return `<select class="field" id="employee-select" aria-label="Seleccionar empleado">${data.employees.map(e=>`<option value="${e.id}" ${e.id===viewState.emp?'selected':''}>${h(e.name)}</option>`).join('')}</select>`;}
 function inicio(){let active=data.employees.filter(x=>x.status==='ACTIVO').length,issues=getIssues().length,now=dateBestForApp(),lastDate=countAbsences(now),monthly=daysOfMonth(viewState.year,viewState.month),alerts=monthly.map(d=>({date:d,...countAbsences(d)})).filter(x=>x.count>=data.settings.maxAbsences);let recent=data.records.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);let latestMonth=`${viewState.year}-${String(viewState.month+1).padStart(2,'0')}`;
@@ -123,6 +128,11 @@ function getIssueFlag(r){return Boolean(r.warning||r.control==='REVISAR'||r.acti
 function ajustes(){
  return `<div class="notice"><b>Modo presentación.</b> Esta versión lee los datos de la copia de CONTROL_HORARIO(1).xlsx incluida en el programa y no permite modificar trabajadores, jornadas, horas ni vacaciones.</div>
  <div class="settings-grid">
+ <section class="panel"><h2>Versión y actualizaciones</h2>
+  <div class="settings-box"><b>Versión instalada</b><p><strong>v${CJ_VERSION}</strong> · ${CJ_RELEASE}</p><span class="pill blue">Aplicación móvil</span></div>
+  <div class="settings-box" style="margin-top:12px"><b>Estado</b><p>${h(updateStatus)}</p><button class="btn" data-action="check-update">Comprobar actualizaciones</button> ${updateAvailable?'<button class="btn secondary" data-action="install-update">Actualizar ahora</button>':''}</div>
+  <p class="footer-note">Las actualizaciones desde esta pantalla requieren que la aplicación esté instalada desde una dirección HTTPS privada y que se publique allí la nueva versión. Abrir un ZIP desde Archivos no habilita actualizaciones remotas. Los datos de empleados no deben publicarse en una web pública.</p>
+ </section>
  <section class="panel"><h2>Origen de información</h2>
   <div class="settings-box"><b>Archivo de referencia</b><p>${h(data.importedFrom||'CONTROL_HORARIO(1).xlsx')}</p><span class="pill blue">Copia local</span></div>
   <div class="settings-box" style="margin-top:12px"><b>Sincronización manual</b><p>La conexión OneDrive queda aparcada. Esta versión no busca cambios del Excel por sí sola; los datos mostrados son una fotografía de la copia importada.</p></div>
@@ -216,7 +226,7 @@ async function pdfAdd(files){
  }render();}
 function pdfExport(){const cols=['Archivo','Fecha','Empleado detectado','Entrada','Salida','Estado','Texto original'];const rows=pdfState.rows.map(r=>[r.file,r.date,r.employee,r.start,r.end,r.state,r.line]);const csv='\uFEFF'+[cols,...rows].map(r=>r.map(escapeCsv).join(';')).join('\r\n');download(new Blob([csv],{type:'text/csv;charset=utf-8'}),`ControlJornada-revision-PDF-${TODAY}.csv`);notify('CSV de revisión preparado');}
 
-function render(){const side=`<aside class="sidebar"><div class="brand"><div class="brandmark">✓</div><div><b>Control Jornada</b><small>GESTIÓN DE PERSONAL</small></div></div><div class="navsmall">MENÚ PRINCIPAL</div><nav>${VIEWS.map(([name,ico,label])=>`<button class="navitem ${viewState.page===name?'active':''}" data-go="${name}"><span>${ico}</span>${label}</button>`).join('')}</nav><div class="sidefoot"><strong>Versión 0.8 · Lector PDF</strong><br>Solo lectura · sin cálculos laborales<br>Datos del Excel 2026–2027</div></aside>`;
+function render(){const side=`<aside class="sidebar"><div class="brand"><div class="brandmark">✓</div><div><b>Control Jornada</b><small>GESTIÓN DE PERSONAL</small></div></div><div class="navsmall">MENÚ PRINCIPAL</div><nav>${VIEWS.map(([name,ico,label])=>`<button class="navitem ${viewState.page===name?'active':''}" data-go="${name}"><span>${ico}</span>${label}</button>`).join('')}</nav><div class="sidefoot"><strong>Versión 0.9 · Móvil</strong><br>Solo lectura · sin cálculos laborales<br>Datos del Excel 2026–2027</div></aside>`;
 const pages={inicio,calendario,fichaEmpleado,resumenAnual,empleados,revision,vacaciones,cobertura,ajustes,importar:importarPDF,ficha:fichaEmpleado,resumen:resumenAnual};document.getElementById('app').innerHTML=side+`<main class="main">${topbar()}${pages[viewState.page]()}</main><nav class="bottomnav">${[['calendario','▦','Mes'],['ficha','♙','Ficha'],['resumen','◫','Anual'],['revision','☷','Fichajes'],['importar','⇪','Importar PDF'],['ajustes','⚙','Datos']].map(([p,ic,label])=>`<button class="${viewState.page===p?'active':''}" data-go="${p}"><span>${ic}</span>${label}</button>`).join('')}</nav>`;}
 function modal(inner){document.getElementById('modal-root').innerHTML=`<div class="modal-back"><div class="dialog" role="dialog" aria-modal="true">${inner}</div></div>`;}
 function closeModal(){document.getElementById('modal-root').innerHTML='';}
@@ -266,7 +276,7 @@ async function loadBackup(){notify('Esta versión es de solo lectura');}
 document.addEventListener('click',event=>{const target=event.target.closest('[data-go],[data-action]');if(!target)return;
  if(target.dataset.go){nav(target.dataset.go);return;}
  let act=target.dataset.action;
- switch(act){case'backup':exportBackup();break;case'pdf-export':pdfExport();break;case'pdf-clear':pdfState.files=[];pdfState.rows=[];pdfState.messages=[];render();break;case'pdf-line':{let r=pdfState.rows[Number(target.dataset.line)];if(r)modal(`<h2>Texto del PDF</h2><p style="white-space:pre-wrap;overflow-wrap:anywhere">${h(r.line)}</p><div class="actions"><button class="btn" data-action="close-modal">Cerrar</button></div>`);break;}case'pdf-parse-paste':{let el=document.getElementById('pdf-paste'),t=el?.value||'';if(!t.trim())return notify('Pega primero el texto');let n=parsePdfLines(t,'Texto pegado');pdfState.messages.push(`${n} líneas encontradas en texto pegado`);render();break;}case'view-emp':viewState.emp=target.dataset.emp;nav('ficha');break;case'worker-calendar':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';nav('calendario');break;case'reader-year':viewState.year=Number(target.dataset.year);render();break;case'prev-month':changeMonth(-1);break;case'next-month':changeMonth(1);break;case'mark-day':if(target.dataset.emp)viewState.emp=target.dataset.emp;markModal(target.dataset.date);break;case'matrix-mode':viewState.calendarMode=viewState.calendarMode==='equipo'?'individual':'equipo';render();break;case'open-worker-month':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';render();break;case'pick-month':viewState.month=Number(target.dataset.month);render();break;case'prev-year':viewState.year--;render();break;case'next-year':viewState.year++;render();break;case'today-month':{let dt=new Date();viewState.month=dt.getMonth();viewState.year=dt.getFullYear();render();break;}case'export-month':exportMonth();break;case'undo-mark':undoLastMark();break;case'close-modal':closeModal();break;case'show-emp':empModal(target.dataset.emp);break;case'emp-calendar':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';closeModal();nav('calendario');break;case'coverage-detail':coverageModal(target.dataset.date);break;case'edit-record':editModal(target.dataset.id);break;case'add-record':notify('Esta versión es de solo lectura');break;case'export-csv':exportCSV();break;case'show-more':viewState.reviewLimit+=100;render();break;case'restore':notify('Esta versión es de solo lectura');break;case'reset':notify('Esta versión es de solo lectura');break;case'save-settings':notify('La configuración oficial pertenece al Excel');break;}
+ switch(act){case'check-update':checkMobileUpdate();break;case'install-update':installMobileUpdate();break;case'backup':exportBackup();break;case'pdf-export':pdfExport();break;case'pdf-clear':pdfState.files=[];pdfState.rows=[];pdfState.messages=[];render();break;case'pdf-line':{let r=pdfState.rows[Number(target.dataset.line)];if(r)modal(`<h2>Texto del PDF</h2><p style="white-space:pre-wrap;overflow-wrap:anywhere">${h(r.line)}</p><div class="actions"><button class="btn" data-action="close-modal">Cerrar</button></div>`);break;}case'pdf-parse-paste':{let el=document.getElementById('pdf-paste'),t=el?.value||'';if(!t.trim())return notify('Pega primero el texto');let n=parsePdfLines(t,'Texto pegado');pdfState.messages.push(`${n} líneas encontradas en texto pegado`);render();break;}case'view-emp':viewState.emp=target.dataset.emp;nav('ficha');break;case'worker-calendar':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';nav('calendario');break;case'reader-year':viewState.year=Number(target.dataset.year);render();break;case'prev-month':changeMonth(-1);break;case'next-month':changeMonth(1);break;case'mark-day':if(target.dataset.emp)viewState.emp=target.dataset.emp;markModal(target.dataset.date);break;case'matrix-mode':viewState.calendarMode=viewState.calendarMode==='equipo'?'individual':'equipo';render();break;case'open-worker-month':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';render();break;case'pick-month':viewState.month=Number(target.dataset.month);render();break;case'prev-year':viewState.year--;render();break;case'next-year':viewState.year++;render();break;case'today-month':{let dt=new Date();viewState.month=dt.getMonth();viewState.year=dt.getFullYear();render();break;}case'export-month':exportMonth();break;case'undo-mark':undoLastMark();break;case'close-modal':closeModal();break;case'show-emp':empModal(target.dataset.emp);break;case'emp-calendar':viewState.emp=target.dataset.emp;viewState.calendarMode='individual';closeModal();nav('calendario');break;case'coverage-detail':coverageModal(target.dataset.date);break;case'edit-record':editModal(target.dataset.id);break;case'add-record':notify('Esta versión es de solo lectura');break;case'export-csv':exportCSV();break;case'show-more':viewState.reviewLimit+=100;render();break;case'restore':notify('Esta versión es de solo lectura');break;case'reset':notify('Esta versión es de solo lectura');break;case'save-settings':notify('La configuración oficial pertenece al Excel');break;}
 });
 document.addEventListener('change',event=>{const t=event.target;if(t.id==='pdf-files'&&t.files?.length){pdfAdd(t.files);t.value='';}if(t.id==='employee-select'){viewState.emp=t.value;render();}if(t.id==='record-filter'){viewState.recordFilter=t.value;viewState.reviewLimit=60;render();}if(t.id==='file-restore'&&t.files[0])loadBackup(t.files[0]);});
 document.addEventListener('input',event=>{const t=event.target;if(t.id==='record-search'){viewState.query=t.value;viewState.reviewLimit=60;let pos=t.selectionStart;render();let x=document.getElementById('record-search');x?.focus();x?.setSelectionRange(pos,pos);}if(t.id==='employee-search'){viewState.employeeQuery=t.value;let pos=t.selectionStart;render();let x=document.getElementById('employee-search');x?.focus();x?.setSelectionRange(pos,pos);}});
@@ -275,12 +285,33 @@ window.CJBridge={getData:()=>data,setData:next=>{data=next;persist();render();},
 document.getElementById('modal-root').addEventListener('click',event=>{if(event.target.classList.contains('modal-back'))closeModal();});
 render();
 
-if('serviceWorker' in navigator && location.protocol!=='file:'){
- if(['localhost','127.0.0.1'].includes(location.hostname)){
-  // En PC local no instalar SW: evita scripts obsoletos de versiones anteriores.
-  navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).catch(()=>{});
-  if('caches' in window)caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('control-jornada-')).map(k=>caches.delete(k)))).catch(()=>{});
- }else navigator.serviceWorker.register('./sw.js').catch(()=>{});
+async function checkMobileUpdate(){
+ if(location.protocol==='file:' || !navigator.onLine){updateStatus='Sin conexión de publicación: abre la aplicación desde su URL privada HTTPS.';render();return;}
+ updateStatus='Buscando nueva versión…';render();
+ try{
+  const response=await fetch('./version.json?check='+Date.now(),{cache:'no-store'});
+  if(!response.ok)throw new Error('No se pudo consultar version.json');
+  const release=await response.json();
+  if(!/^\d+\.\d+\.\d+$/.test(release.version||''))throw new Error('Formato de versión no válido');
+  const cmp=(a,b)=>{const aa=a.split('.').map(Number),bb=b.split('.').map(Number);for(let i=0;i<3;i++){if(aa[i]!==bb[i])return aa[i]-bb[i];}return 0;};
+  updateAvailable=cmp(release.version,CJ_VERSION)>0;
+  updateStatus=updateAvailable?'Disponible: v'+release.version:'Estás utilizando la última versión publicada (v'+CJ_VERSION+').';
+  if(updateRegistration)await updateRegistration.update();
+ }catch(e){updateStatus='No se pudo verificar: '+e.message+'. Comprueba la conexión y la publicación privada.';}
+ render();
+}
+async function installMobileUpdate(){
+ if(!updateAvailable)return;
+ if(!updateRegistration){updateStatus='No hay instalador móvil activo. Se necesita una URL HTTPS privada.';render();return;}
+ try{
+  await updateRegistration.update();
+  if(updateRegistration.waiting){updateStatus='Aplicando actualización…';render();updateRegistration.waiting.postMessage({type:'SKIP_WAITING'});return;}
+  updateStatus='Nueva versión detectada. Cierra y vuelve a abrir la aplicación si no se actualiza todavía.';render();
+ }catch(e){updateStatus='No se pudo aplicar: '+e.message;render();}
+}
+if('serviceWorker' in navigator && location.protocol==='https:'){
+ navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+ navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>{updateRegistration=reg;}).catch(()=>{});
 }
 
 document.addEventListener('dragover',e=>{if(e.target.closest('#pdf-drop'))e.preventDefault();});
