@@ -1,5 +1,4 @@
-Mi Jornada 1.4.5 — Corrección del acceso Abrir trabajador.
-Antes de actualizar, exporta una copia de seguridad JSON desde Ajustes.
-Sube los seis archivos a GitHub Pages sustituyendo los existentes.
-Se conserva el almacenamiento local y los registros anteriores.
-En Actividad global, Abrir trabajador selecciona el empleado y abre Tareas y cargas.
+Mi Jornada v1.4.7 — Corrección formulario de cargas.
+Antes de actualizar, exporta una copia JSON desde Ajustes.
+Sustituye los archivos de tu GitHub Pages por los de este ZIP.
+Al cambiar el trabajador, la nueva preparación se limpia (cinco dígitos, bultos, kilos). No afecta a datos guardados o tareas activas.

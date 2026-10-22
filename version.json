@@ -1,9 +1,9 @@
 {
-  "version": "1.4.5",
+  "version": "1.4.7",
   "released": "2026-10-19",
   "changes": [
-    "Corregido botón Abrir trabajador desde Actividad global",
-    "Selecciona al trabajador y abre la sección de tareas y preparaciones",
-    "Mantiene registros locales y las funciones de v1.4.4"
+    "Limpieza de referencia, bultos y kilos al seleccionar otro trabajador",
+    "No modifica preparaciones guardadas ni la preparación activa",
+    "Mantiene prefijo fijo LP26- y el resto de mejoras"
   ]
 }
