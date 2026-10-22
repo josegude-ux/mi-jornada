@@ -9,12 +9,12 @@ $Mime=@{'.html'='text/html; charset=utf-8';'.js'='text/javascript; charset=utf-8
 $Server=[System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback,$Port)
 try { $Server.Start() } catch { Write-Host "No se puede iniciar el puerto $Port. Cierra otras ventanas del servidor."; exit 1 }
 Write-Host ''
-Write-Host 'CONTROL JORNADA V0.7 - SOLO PRESENTACION' -ForegroundColor Cyan
+Write-Host 'CONTROL JORNADA V0.8 - SOLO PRESENTACION' -ForegroundColor Cyan
 Write-Host 'Solo accesible desde este ordenador. No publica datos en Internet.'
-Write-Host 'Abriendo http://localhost:8766/index.html?v=070'
+Write-Host 'Abriendo http://localhost:8766/index.html?v=080'
 Write-Host 'Mantener abierta mientras se use la aplicacion.'
 Write-Host 'Ctrl+C para detener.'
-try { Start-Process 'http://localhost:8766/index.html?v=070' } catch { }
+try { Start-Process 'http://localhost:8766/index.html?v=080' } catch { }
 try {
  while ($true) {
   $Client=$Server.AcceptTcpClient()

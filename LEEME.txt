@@ -1,36 +1,13 @@
-CONTROL JORNADA · EMPRESA · v0.7
-MODO PRESENTACIÓN / CONSULTA (SOLO LECTURA)
+CONTROL JORNADA 0.8 — MÓDULO DE IMPORTACIÓN Y REVISIÓN PDF
 
-QUÉ INCLUYE
-- Control mensual de plantilla con 12 meses y vista individual.
-- Ficha de trabajador: datos de plantilla, vacaciones 2026/2027 y últimos fichajes importados.
-- Resumen anual: valores de vacaciones 2026 y 2027 procedentes del Excel.
-- Directorio de empleados, consulta de fichajes, vacaciones, cobertura visual y exportaciones.
-- Consulta de casillas y de fichajes sin posibilidad de modificarlos.
+Ejecuta INICIAR_CONTROL_JORNADA.cmd (Windows). No requiere Python.
 
-QUÉ NO HACE
-- No modifica el Excel, ni sus fórmulas, ni los datos de la aplicación.
-- No calcula horas de jornada, nocturnidad, horas extra, déficit ni saldos de vacaciones.
-- La pantalla mensual sí presenta conteos visuales de marcas y ausencias; no son saldos laborales oficiales.
-- No se conecta ni sincroniza todavía con OneDrive. Los datos son una copia fija del archivo que se usó para generar el prototipo.
-- El resumen anual se limita a los campos de vacaciones ya importados. Todavía no incorpora todos los resultados anuales de horas del libro.
+En Importar PDF puedes seleccionar varios documentos PDF de fichajes desde la carpeta local o OneDrive sincronizado, o pegar texto extraído del PDF.
 
-CÓMO ABRIR
-1. Descomprimir el ZIP en una carpeta nueva de Windows.
-2. Ejecutar INICIAR_CONTROL_JORNADA.cmd.
-3. Se abre la app en http://localhost:8766/index.html?v=070
-4. Mantener abierta la ventana de PowerShell mientras se usa.
+IMPORTANTE: esta versión incluye un extractor PDF básico y experimental, no OCR ni compatibilidad con cualquier PDF. Si el documento usa fuentes codificadas, escaneos o tablas complejas, puede no leerlo correctamente. Comprueba SIEMPRE cada fila contra el PDF original.
 
-IMPORTANTE PARA QUIEN VENÍA DE v0.5
-- v0.7 usa un puerto distinto (8766), para que no interfiera con v0.5 (8765).
-- No incorpora las correcciones manuales guardadas en el navegador por v0.5: muestra únicamente los datos de origen del Excel importado.
-- Si quieres conservar aquellas correcciones, exporta primero una copia JSON desde v0.5. No elimines la carpeta ni los datos de v0.5 antes de revisar.
-- No sustituye el libro laboral. Seguir usando el Excel original para cálculos y actualizaciones.
+El reconocimiento de trabajador y horarios es orientativo, no validado para el modelo de PDF de la empresa. No hace cálculos ni modifica el Excel original. La salida CSV es solo para revisión manual y NO para importación directa.
 
-PRIVACIDAD
-Este programa contiene datos reales de empleados. Guardar el ZIP y su carpeta en una ubicación privada, y no publicar ni compartir sin autorización.
+Privacidad: el ZIP contiene datos de personal procedentes del Excel original. Guarda y utiliza solo en equipos autorizados; no publiques en sitios web públicos.
 
-PRUEBAS
-Se han comprobado la sintaxis de JavaScript, el contenido de las ocho pantallas
-y la apertura de ventanas de consulta sin controles de edición. La validación
-automática con un navegador gráfico no pudo completarse en el entorno de pruebas.
+No se guardan automáticamente los PDF ni las filas extraídas; al actualizar la página se pierde ese borrador.

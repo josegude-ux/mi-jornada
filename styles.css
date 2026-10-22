@@ -132,3 +132,5 @@
 .reader-disclaimer{margin:13px 0}
 @media(max-width:1100px){.reader-cards{grid-template-columns:1fr 1fr}}
 @media(max-width:740px){.reader-cards{grid-template-columns:1fr}.reader-lead{align-items:stretch;flex-direction:column;padding:16px}.reader-lead h2{font-size:19px}.reader-lead-actions{flex-direction:column;align-items:stretch}.reader-lead-actions .field{min-width:0}}
+
+.pdf-drop{border:2px dashed #a6bad1;border-radius:16px;padding:28px;display:flex;align-items:center;flex-direction:column;gap:10px;text-align:center;background:#f8fbff;margin-top:14px}.pdf-file{display:flex;justify-content:space-between;gap:12px;padding:10px;border-bottom:1px solid #e5ebf2}.pdf-message{font-size:13px;color:#586474;padding:9px 12px;background:#f1f5fa;border-radius:8px}.pdf-file-list{margin-top:12px}@media(max-width:600px){.pdf-drop{padding:20px 10px}.pdf-file{flex-direction:column}}
